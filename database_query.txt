@@ -1,0 +1,38 @@
+-- auto-generated definition
+create table authors
+(
+    author_id serial      not null
+        constraint authors_pk
+            primary key,
+    name      varchar(32) not null
+    book      serial  not null
+);
+
+alter table authors
+    owner to postgres;
+
+-- auto-generated definition
+create table books
+(
+    book_id serial not null
+        constraint books_pk
+            primary key,
+    name    varchar(32),
+    "user"  serial not null
+);
+
+alter table books
+    owner to postgres;
+
+-- auto-generated definition
+create table users
+(
+    user_id  serial not null
+        constraint users_pkey
+            primary key,
+    nickname varchar(255)
+);
+
+alter table users
+    owner to postgres;
+

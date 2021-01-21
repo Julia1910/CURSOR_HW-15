@@ -1,5 +1,6 @@
 package com.cursor.entities;
 
+import org.hibernate.annotations.Proxy;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.Objects;
 @Component
 @Entity
 @Table(name = "authors")
+@Proxy(lazy = false)
 public class Author implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +19,10 @@ public class Author implements Serializable {
 
     @Column(name = "name")
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "book")
+    private Book book;
 
     public Author() {
     }

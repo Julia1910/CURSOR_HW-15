@@ -10,6 +10,7 @@
         <property name="connection.password">12345678</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
 
+
         <mapping class="com.cursor.entities.Author"/>
         <mapping class="com.cursor.entities.Book"/>
         <mapping class="com.cursor.entities.User"/>

@@ -1,5 +1,6 @@
-package com.cursor.crud;
+package com.cursor.dao;
 
+import com.cursor.dao.interfaces.BookCRUD;
 import com.cursor.entities.Book;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -7,13 +8,15 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
-public class BookCRUD implements CRUD<Book> {
+public class BookDao implements BookCRUD {
 
     private SessionFactory sessionFactory;
 
     @Autowired
-    public BookCRUD(SessionFactory sessionFactory) {
+    public BookDao(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
@@ -41,11 +44,29 @@ public class BookCRUD implements CRUD<Book> {
 
     @Override
     public void update(Book entity) {
-
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.update(entity);
+        transaction.commit();
+        session.close();
     }
 
     @Override
     public boolean delete(Book entity) {
-        return false;
+        Boolean status = false;
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.delete(entity);
+        transaction.commit();
+        if (!session.contains(entity)) {
+            status = true;
+        }
+        return status;
+    }
+
+    @Override
+    public List<Book> getAll() {
+        Session session = sessionFactory.openSession();
+        return (List<Book>) session.createCriteria(Book.class).list();
     }
 }

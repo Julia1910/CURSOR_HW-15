@@ -1,4 +1,4 @@
-package com.cursor.crud;
+package com.cursor.dao.interfaces;
 
 public interface CRUD<T> {
 

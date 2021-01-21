@@ -1,6 +1,7 @@
-package com.cursor.crud;
+package com.cursor.dao;
 
-import com.cursor.entities.Author;
+import com.cursor.dao.interfaces.UserCRUD;
+import com.cursor.entities.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -8,17 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthorCRUD implements CRUD<Author> {
+public class UserDao implements UserCRUD {
 
     private SessionFactory sessionFactory;
 
     @Autowired
-    public AuthorCRUD(SessionFactory sessionFactory) {
+    public UserDao(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public boolean create(Author entity) {
+    public boolean create(User entity) {
         Boolean status = false;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -32,17 +33,16 @@ public class AuthorCRUD implements CRUD<Author> {
     }
 
     @Override
-    public Author read(int id) {
+    public User read(int id) {
         Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        Author author = session.load(Author.class, id);
-        transaction.commit();
+        User user = session.load(User.class, id);
+        user.toString();
         session.close();
-        return author;
+        return user;
     }
 
     @Override
-    public void update(Author entity) {
+    public void update(User entity) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.update(entity);
@@ -51,7 +51,7 @@ public class AuthorCRUD implements CRUD<Author> {
     }
 
     @Override
-    public boolean delete(Author entity) {
+    public boolean delete(User entity) {
         Boolean status = false;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();

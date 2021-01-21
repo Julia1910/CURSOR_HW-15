@@ -16,7 +16,7 @@ public class MyConfig {
             org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
             configuration.configure();
             sessionFactory = configuration.buildSessionFactory();
-        } catch (Throwable e){
+        } catch (Throwable e) {
             System.out.println("Something goes wrong " + e);
         }
         return sessionFactory;

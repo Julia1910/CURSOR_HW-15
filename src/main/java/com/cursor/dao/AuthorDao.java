@@ -1,24 +1,27 @@
-package com.cursor.crud;
+package com.cursor.dao;
 
-import com.cursor.entities.User;
+import com.cursor.dao.interfaces.AuthorCRUD;
+import com.cursor.entities.Author;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
-public class UserCRUD implements CRUD<User> {
+public class AuthorDao implements AuthorCRUD {
 
     private SessionFactory sessionFactory;
 
     @Autowired
-    public UserCRUD(SessionFactory sessionFactory) {
+    public AuthorDao(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public boolean create(User entity) {
+    public boolean create(Author entity) {
         Boolean status = false;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -32,15 +35,15 @@ public class UserCRUD implements CRUD<User> {
     }
 
     @Override
-    public User read(int id) {
+    public Author read(int id) {
         Session session = sessionFactory.openSession();
-        User user = session.load(User.class, id);
+        Author author = session.load(Author.class, id);
         session.close();
-        return user;
+        return author;
     }
 
     @Override
-    public void update(User entity) {
+    public void update(Author entity) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.update(entity);
@@ -49,7 +52,7 @@ public class UserCRUD implements CRUD<User> {
     }
 
     @Override
-    public boolean delete(User entity) {
+    public boolean delete(Author entity) {
         Boolean status = false;
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -59,5 +62,12 @@ public class UserCRUD implements CRUD<User> {
             status = true;
         }
         return status;
+    }
+
+    @Override
+    public List<Author> getAll() {
+        Session session = sessionFactory.openSession();
+        List<Author> authors = session.createCriteria(Author.class).list();
+        return authors;
     }
 }
